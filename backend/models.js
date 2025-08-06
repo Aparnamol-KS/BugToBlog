@@ -1,6 +1,7 @@
 const { default: mongoose } = require("mongoose");
+require('dotenv').config(); 
 
-mongoose.connect('URI')
+mongoose.connect(process.env.MONGODB_URI)
 
 const UserSchema = new mongoose.Schema({
     username: String,

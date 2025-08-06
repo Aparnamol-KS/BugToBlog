@@ -3,54 +3,66 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 function Blogs() {
-    const navigate = useNavigate();  
-    function createBlog(){
-        window.location = '/createBlog'
-    }
+    const navigate = useNavigate();
+    const [blogs, setBlogs] = useState([]);
 
-    function view(id){
-        navigate(`/blogs/${id}`); 
-    }
-
-    function yourBlogs(){
-        navigate('/yourBlogs')
-    }
-
-    const [blogs, setBlogs] = useState([])
     useEffect(() => {
         axios.get('http://localhost:4000/blogs', {
             headers: {
                 token: localStorage.getItem('token')
             }
-        }).then(function (response) {
-            setBlogs(response.data)
-        })
+        }).then(response => {
+            setBlogs(response.data);
+        });
     }, []);
 
-    return <div style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        fontFamily: "cambria"
-    }}>
-        <h1 style={{fontSize:"60px"}}>Blogs</h1>
-       <div style={{
-        display:"flex",
-       }}>
-         <button style={{backgroundColor:"black", color:"white", borderRadius:"5px", padding:"5px",width:"100px", margin:"10px"}} onClick={createBlog}>Create Blog</button>
-        <button style={{backgroundColor:"black", color:"white", borderRadius:"5px", padding:"5px",width:"100px", margin:"10px"}} onClick={yourBlogs}>Your Blogs</button>
-       </div>
-        {blogs.map(blog=>
-             <div key={blog._id}  style={{padding:"10px", border:"1px solid black", width:"50%",boxShadow:"3px 2px 4px grey",margin:"10px",cursor:"pointer"}} onClick={()=>view(blog._id)}>
-                <h3>{blog.title}</h3>
-                <p>{blog.content}</p>
-            </div>
-        )}
+    function createBlog() {
+        navigate('/createBlog');
+    }
 
-    </div>
+    function view(id) {
+        navigate(`/blogs/${id}`);
+    }
+
+    function yourBlogs() {
+        navigate('/yourBlogs');
+    }
+
+    return (
+        <div className="min-h-screen px-6 py-10 flex flex-col items-center bg-gradient-to-r from-pink-300 to-sky-300 font-serif text-black">
+            <h1 className="text-[70px] font-bold mb-10">Blogs</h1>
+
+            <div className="flex flex-wrap gap-4 justify-center mb-10">
+                <button
+                    onClick={createBlog}
+                    className="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-900 transition"
+                >
+                    Create Blog
+                </button>
+                <button
+                    onClick={yourBlogs}
+                    className="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-900 transition"
+                >
+                    Your Blogs
+                </button>
+            </div>
+
+            <div className="w-full max-w-4xl space-y-6">
+                {blogs.map((blog) => (
+                    <div
+                        key={blog._id}
+                        onClick={() => view(blog._id)}
+                        className="bg-white/80 backdrop-blur-md border border-gray-300 rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer"
+                    >
+                        <h3 className="text-2xl font-semibold mb-2 text-gray-900">{blog.title}</h3>
+                        <p className="text-gray-700 leading-relaxed text-base">
+                            {blog.content.length > 300 ? blog.content.slice(0, 300) + "..." : blog.content}
+                        </p>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 }
 
-
-
 export default Blogs;
-
