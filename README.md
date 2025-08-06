@@ -1,4 +1,8 @@
 # 📝 Blog Application
+![React](https://img.shields.io/badge/Frontend-React.js-blue?logo=react)
+![Express](https://img.shields.io/badge/API-Express.js-lightblue?logo=express)
+![MongoDB](https://img.shields.io/badge/Database-MongoDB-brightgreen?logo=mongodb)
+![Node.js](https://img.shields.io/badge/Backend-Node.js-darkgreen?logo=node.js)
 
 A full-stack blog platform that allows users to sign up, sign in, create, view, and manage blogs. Built using **React.js**, **Node.js**, **Express**, and **MongoDB**.
 
